@@ -4,14 +4,20 @@
     {
         static void Main(string[] args)
         {
-            List<string> list = new List<string>();
-            list.Add("1");
-            list.Add("2");
-            list.Add("3");
-            list.Remove("2");
-            list.Remove("3");
-            list.Add("4");
-            Console.WriteLine("Hello, World!");
+            var puppyList = new PuppyList<string>()
+            {
+                "str", "dd", "fff"
+            };
+            foreach (var p in puppyList)
+                Console.WriteLine(p);
+            Console.WriteLine(puppyList[0]);
+            
+
+            var list = new List<string>()
+           {
+               "str", "dd", "fff"
+           };
+            list.ForEach(p => Console.WriteLine(p));
         }
     }
 }
