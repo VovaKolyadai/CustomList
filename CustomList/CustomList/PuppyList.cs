@@ -14,13 +14,12 @@ namespace CustomList
         private T[] _data;
         private int _size;
 
-        //add event OnExpandedEvent
-        //https://stackoverflow.com/questions/213638/how-do-c-sharp-events-work-behind-the-scenes as an example
-
-        public PuppyList()
+        public event EventHandler ExpandedEvent;
+        protected virtual void OnExpandedEvent(EventArgs e)
         {
-            _data = emptyArray;
+            ExpandedEvent?.Invoke(this, e);
         }
+        public PuppyList() => _data = emptyArray;
         public PuppyList(int capacity)
         {
             if (capacity < 0)
@@ -32,7 +31,15 @@ namespace CustomList
         }
         public PuppyList(IEnumerable<T> collection)
         {
-            //TODO
+            if (collection == null) throw new ArgumentNullException("collection cant be null");
+            int count = collection.Count();
+            if (count == 0) _data = emptyArray;
+            else
+            {
+                _data = new T[count];
+                _data = collection.ToArray();
+                _size = count;
+            }
         }
 
         public int Capacity
@@ -72,6 +79,7 @@ namespace CustomList
             else
             {
                 AddWithResize(element);
+                OnExpandedEvent(EventArgs.Empty);
             }
         }
         private void AddWithResize(T element)
@@ -110,7 +118,10 @@ namespace CustomList
         }
         public IEnumerator<T> GetEnumerator()
         {
-            return ((IEnumerable<T>)_data).GetEnumerator();
+            for (int i = 0; i < _size; i++)
+            {
+                yield return _data[i];
+            }
         }
         IEnumerator IEnumerable.GetEnumerator()
         {

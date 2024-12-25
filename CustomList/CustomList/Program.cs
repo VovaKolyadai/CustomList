@@ -4,14 +4,16 @@
     {
         static void Main(string[] args)
         {
-            var puppyList = new PuppyList<string>()
+            var puppyList = new PuppyList<int>()
             {
-                "str", "dd", "fff"
+                1, 22, 57, 100, 0
             };
-            foreach (var p in puppyList)
-                Console.WriteLine(p);
-            Console.WriteLine(puppyList[0]);
-            
+            puppyList.Where(x => x > 1).ToList().ForEach(Console.WriteLine);
+            Console.WriteLine("-----");
+            var sortedPuppyList = puppyList.OrderBy(x => x).ToList();
+            sortedPuppyList.ForEach(Console.WriteLine);
+            Console.WriteLine("-----");
+
 
             var list = new List<string>()
            {
